@@ -33,7 +33,7 @@ public class MapTest {
 	@Test
 	public void GameMapTests() {
 		GameMap Mappy=new GameMap();
-		assertEquals(16,Mappy.getWidth());
+		assertEquals(8,Mappy.getWidth());
 		assertEquals(null,Mappy.getConnection("N"));
 		Mappy.addConnection("New Map", "S");
 		assertEquals("New Map",Mappy.getConnection("S"));

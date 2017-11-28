@@ -41,9 +41,7 @@ public class PlayerTester {
 		assertTrue(play.addPlayer(new pChara("Lyria",1,100,5,5,5,8)));
 		assertTrue(play.addPlayer(new pChara("Katalina",1,100,5,5,5,9)));
 		assertTrue(play.addPlayer(new pChara("Rackam",1,100,5,5,5,10)));
-		battle batoru=new battle(play.party,meme);
-		assertEquals(3,batoru.maxSpeed(batoru.all));
-		batoru.populateQueue(batoru.all);
+		Battle batoru=new Battle(play.party,meme);
 		
 		
 		

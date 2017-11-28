@@ -1,5 +1,8 @@
 package Map;
 
+import Characters.*;
+import Characters.Character;
+
 import java.util.*;
 
 public class GameMap {
@@ -14,7 +17,6 @@ public class GameMap {
 	private String nMap,sMap,wMap,eMap;
 	private int mapWidth;
 	private int mapLength;
-	//Add a vector for monsters that appear
 	
 	/**
 	 * Default Constructor, creates a 16x16 with no connections
@@ -22,11 +24,11 @@ public class GameMap {
 	 */
 	public GameMap(){
 		mapName="SampleMap";
-		mapWidth=16;
-		mapLength=16;
+		mapWidth=8;
+		mapLength=8;
 		tiles=new MapTile[mapWidth][mapLength];
-		for (int i=0;i<16;i++) {
-			for (int j=0;j<16;j++) {
+		for (int i=0;i<8;i++) {
+			for (int j=0;j<8;j++) {
 				tiles[i][j]=new MapTile("Field",null);
 			}
 		}
@@ -114,6 +116,21 @@ public class GameMap {
 	 */
 	public String getName() {
 		return mapName;
+	}
+	
+	
+	
+	/**
+	 * Placeholder that just gives a vector of 1 enemy
+	 * @return
+	 */
+	public Vector<Enemy> generateEnemies(){
+		Vector<Enemy> ret=new Vector<Enemy>();
+		ret.add(new Enemy("TrashA",2, 1,2,3,4,5));
+		ret.add(new Enemy("TrashB",2, 1,2,3,4,5));
+		ret.add(new Enemy("TrashC",2, 1,2,3,4,5));
+		return ret;
+		
 	}
 	
 }

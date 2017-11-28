@@ -1,5 +1,7 @@
 package Player;
+import java.util.Scanner;
 import java.util.Vector;
+import Game.*;
 
 import Characters.*;
 import Map.*;
@@ -11,12 +13,14 @@ public class Player {
 	private GameWorld World;
 	//The coords of the player in the current GameWorld and GameMap;
 	private int xCoord,yCoord;
+	private Battle batoru;
 	
 	public Player() {
 		party=new Vector<pChara>();
 		World=new GameWorld();
 		xCoord=0;
 		yCoord=0;
+		batoru=null;
 	}
 	
 	public boolean addPlayer(pChara member) {
@@ -58,6 +62,109 @@ public class Player {
 		return false;
 	}
 	
+	
+	/**
+	 * @throws InterruptedException 
+	 * 
+	 */
+	public void triggerBattle() throws InterruptedException {
+		//Add some crazy checks for type and stuff later
+		int gen= (int)(Math.random()*255);
+		if(gen>200) {
+			batoru=new Battle(party,World.generateEnemy());
+			System.out.println("Battle starting!");
+			batoru.battleLoop(new Scanner(System.in));
+		}
+		
+	}
+	
+	public void printMap() {
+		for(int i=0;i<World.getCurrentMap().getLength();i++) {
+			for(int j=0;j<World.getCurrentMap().getWidth();j++) {
+				if((i==xCoord) && (j==yCoord)) {
+					System.out.print("[o]");
+				}
+				else {
+					System.out.print("[ ]");
+				}
+			}
+			System.out.println("");
+		}
+		
+	}
+	
+	
+	
+	/**
+	 * Concept game loop
+	 * @throws InterruptedException 
+	 */
+	public void gameLoop() throws InterruptedException {
+		@SuppressWarnings("resource")
+		Scanner scanner=new Scanner(System.in);
+		int ok;
+		while(true) {
+		
+		
+		System.out.println("Current Location: "+World.getCurrentMap().getName()+": "+xCoord+","+yCoord);
+		printMap();
+		System.out.println("\nInput a command:");
+		System.out.println("1) Move Left, 2) Move Right, 3) Move Down, 4) Move Up, 5) Quit");
+		ok=scanner.nextInt();
+		
+		if(ok==1){
+			loopMove("L");
+		}
+		else if(ok==2) {
+			loopMove("R");
+		}
+		else if(ok==3) {
+			loopMove("D");
+		}
+		else if(ok==4) {
+			loopMove("U");
+		}
+		else if(ok==5) {
+			System.out.println("Bye bye!");
+			return;
+		}
+		else {
+			System.out.println("what the fuck man\n");
+		}
+		
+	
+		
+		
+		
+		}
+	}
+	
+	public void loopMove(String dir) throws InterruptedException {
+		int x=0;
+		int y=0;
+		
+		if(dir=="L") {
+			y=-1;
+		}
+		if(dir=="R") {
+			y=1;
+		}
+		if(dir=="U") {
+			x=-1;
+		}
+		if(dir=="D") {
+			x=1;
+		}
+		
+		if(move(x,y)) {
+			System.out.println("Moved character to "+xCoord+","+yCoord+"\n");
+			triggerBattle();
+		}
+		else {
+			System.out.println("Unable to move to that location\n");
+		}
+	}
+
 	
 	
 	
