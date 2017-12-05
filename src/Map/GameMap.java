@@ -35,6 +35,14 @@ public class GameMap {
 	}
 	
 	/**
+	 * Getter for 
+	 * @return
+	 */
+	public MapTile[][] getTiles(){
+		return tiles;
+	}
+	
+	/**
 	 * Custom length creator
 	 * @param w
 	 * @param l
@@ -126,9 +134,14 @@ public class GameMap {
 	 */
 	public Vector<Enemy> generateEnemies(){
 		Vector<Enemy> ret=new Vector<Enemy>();
-		ret.add(new Enemy("TrashA",2, 1,2,3,4,5));
-		ret.add(new Enemy("TrashB",2, 1,2,3,4,5));
-		ret.add(new Enemy("TrashC",2, 1,2,3,4,5));
+		if((Math.random()*20)>15) {
+		ret.add(new Enemy("TrashA",2, 1,2,3,4,10));
+		ret.add(new Enemy("TrashB",2, 1,2,3,10,5));
+		ret.add(new Enemy("TrashC",2, 1,2,3,23,13));
+		}
+		else {
+			ret.add(new Enemy("Mook",23,23,23,23,23,23));
+		}
 		return ret;
 		
 	}

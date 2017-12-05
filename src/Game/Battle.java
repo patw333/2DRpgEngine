@@ -88,6 +88,56 @@ public class Battle {
 		return index;
 	}
 	
+	
+	/**
+	 * Activates a battle action
+	 * @param user
+	 * @param party whether or not the target is a party member
+	 * @param type
+	 * @param target
+	 */
+	public void battleAction(Character user, String type,boolean party,String target) {
+		if(type=="Attack"||type=="Burn") {
+			if(party) {
+				for(int i=0;i<retParty.size();i++) {
+					if(retParty.elementAt(i).getName()==target) {
+						int damage=((user.atk*100)-retParty.elementAt(i).def);
+						retParty.elementAt(i).hpRem-=damage;
+						System.out.println(retParty.elementAt(i).getName()+" took "+damage+" damage!");
+						if(retParty.elementAt(i).hpRem<=0) {
+							//dead
+							System.out.println(retParty.elementAt(i).getName()+" was defeated!");
+							removeFromQueue(retParty.elementAt(i).getName(),true);
+							removeFromVector(retParty.elementAt(i).getName(),retParty,true);
+							
+						}
+					}
+				}
+			}
+			else {
+				for(int i=0;i<enemyParty.size();i++) {
+					if(enemyParty.elementAt(i).getName()==target) {
+						int damage=((user.atk*50)-enemyParty.elementAt(i).def);
+						enemyParty.elementAt(i).hpRem-=damage;
+						System.out.println(enemyParty.elementAt(i).getName()+" took "+damage+" damage!");
+						if(enemyParty.elementAt(i).hpRem<=0) {
+							//dead
+							System.out.println(enemyParty.elementAt(i).getName()+" was defeated!");
+							removeFromQueue(enemyParty.elementAt(i).getName(),false);
+							removeFromVector(enemyParty.elementAt(i).getName(),enemyParty,false);
+							
+						}
+					}
+				}
+			}
+		}
+		//Temporary placeholder just because
+		if(type=="Heal") {
+			System.out.println("But it failed!");
+		}
+		
+	}
+	
 	/**
 	 * Remove a specific character by name from the queue and their corresponding Vector
 	 * Used after a character is defeated in battle.
@@ -214,14 +264,9 @@ public class Battle {
 	 * @throws InterruptedException 
 	 */
 	public void battleLoop(Scanner scanner) throws InterruptedException {
-		//What the fuck lol
-		System.out.println("__________         __    __  .__             _________ __                 __   \n" + 
-				"\\______   \\_____ _/  |__/  |_|  |   ____    /   _____//  |______ ________/  |_ \n" + 
-				" |    |  _/\\__  \\\\   __\\   __\\  | _/ __ \\   \\_____  \\\\   __\\__  \\\\_  __ \\   __\\\n" + 
-				" |    |   \\ / __ \\|  |  |  | |  |_\\  ___/   /        \\|  |  / __ \\|  | \\/|  |  \n" + 
-				" |______  /(____  /__|  |__| |____/\\___  > /_______  /|__| (____  /__|   |__|  \n" + 
-				"        \\/      \\/                     \\/          \\/           \\/             ");
-		//loop forever
+		//What the f
+		System.out.println("---------------------------------------------------\nBattle Starting\n---------------------------------------------------");
+		//loop forever until win
 		
 		String curr;
 		Character temp;
@@ -234,16 +279,55 @@ public class Battle {
 			System.out.println("It's "+temp.getName()+"'s turn!");
 			
 			if(!isEnemy(temp.getName())) {
-				System.out.println("1) Arbitrary Action, 2) Nothing"); 
+				for(int i=0;i<temp.getSkills().size();i++) {
+					System.out.print((i+1)+") "+temp.getSkills().elementAt(i)+" ");
+				}
+				 
 				int com=scanner.nextInt();
-				if(com==1||com==2) {
+				if(com-1>temp.getSkills().size()) {
 					System.out.println(temp.getName()+" did nothing.");
+				}
+				else{
+					System.out.println("Target?:\n 1) Party 2) Enemies");
+					int partyChoice=scanner.nextInt();
+					String target="";
+					Vector<Character> tempV=new Vector<Character>();
+					if(partyChoice==1){
+					 tempV=retParty;
+					}
+					else if(partyChoice==2) {
+					tempV=enemyParty;
+					}
+					
+					for(int i=0;i<tempV.size();i++) {
+							System.out.print((i+1)+")"+tempV.elementAt(i).getName()+" ");
+						}
+						int partyChoice2=scanner.nextInt();
+						if((partyChoice2-1)<tempV.size()) {
+						target=tempV.elementAt(partyChoice2-1).getName();
+						
+						}
+					
+			
+					System.out.println(temp.getName()+" tried to "+temp.getSkills().elementAt(com-1)+" "+target+"!" );
+					if(partyChoice==1) {
+						battleAction(temp,temp.getSkills().elementAt(com-1),true,target);
+						
+					}
+					else {
+						battleAction(temp,temp.getSkills().elementAt(com-1),false,target);
+						
+					}
+					
+					
+					TimeUnit.SECONDS.sleep(1);
 				}
 				
 				//Add them back to the queue
 				turnOrder.add(temp);
 			}
 			else {
+				//enemy action
 				TimeUnit.SECONDS.sleep(1);
 				System.out.println(temp.getName()+" just kinda died!");
 				TimeUnit.SECONDS.sleep(1);
@@ -252,6 +336,7 @@ public class Battle {
 			}
 			
 			if(battleOver()) {
+				//win
 				System.out.println("Your team got "+exp+" experience for doing nothing!\n");
 			}
 			

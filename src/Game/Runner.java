@@ -20,11 +20,14 @@ public class Runner {
 		meme.add(new Enemy());
 		meme.add(new Enemy("Bob",1,2,3,4,5,6));
 		play.addPlayer(new pChara("Djeeta",3,100,5,5,5,27));
+		
 		play.addPlayer(new pChara("Lyria",1,100,5,5,5,8));
 		play.addPlayer(new pChara("Katalina",10,100,5,5,5,17));
 		play.addPlayer(new pChara("Rackam",10,100,5,5,5,100));
+		play.party.elementAt(3).addSkill("Heal");
+		play.party.elementAt(3).addSkill("Burn");
+		
 		play.addMap(new GameMap());
-
 		play.gameLoop();
 		
 	}

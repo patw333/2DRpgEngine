@@ -2,6 +2,7 @@ package Map;
 
 import java.util.*;
 import Characters.*;
+import Characters.Enemy;
 
 /**
  * The class that represents the world of the game

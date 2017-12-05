@@ -1,11 +1,14 @@
 package Characters;
 
+import java.util.Vector;
+
 public abstract class Character {
 	//Universal Stats, add as needed
 	//Basic stats such as level,hp,atk,def,speed
 	//Exp for pChara indicates exp gained, whereas enemies have it indicate exp given.
 	public int hpMax,hpRem,atk,def,luck,speed,level,exp;
 	public String name;
+	public Vector<String> skillSet;
 	
 	/**
 	 * Returns a specific stat based on the input
@@ -37,6 +40,14 @@ public abstract class Character {
 	 */
 	public String getName() {
 		return name;
+	}
+	
+	public void addSkill(String skill) {
+		skillSet.add(skill);
+	}
+	
+	public Vector<String> getSkills(){
+		return skillSet;
 	}
 	
 }

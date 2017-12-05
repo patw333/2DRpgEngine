@@ -1,5 +1,7 @@
 package Characters;
 
+import java.util.Vector;
+
 public class Enemy extends Character {
 	//Flag for determining if the enemy is a boss
 	public boolean isBoss;
@@ -17,6 +19,8 @@ public class Enemy extends Character {
 		speed=0;
 		isBoss=false;
 		exp=10;
+		skillSet=new Vector<String>();
+		skillSet.add("Attack");
 	}
 	
 	/**
@@ -39,6 +43,8 @@ public class Enemy extends Character {
 		speed=speed2;
 		exp=exp2;
 		isBoss=false;
+		skillSet=new Vector<String>();
+		skillSet.add("Attack");
 	}
 	
 	/**

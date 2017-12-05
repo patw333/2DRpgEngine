@@ -1,5 +1,6 @@
 package Characters;
 
+import java.util.Vector;
 
 /**
  * Playable Characters
@@ -18,6 +19,8 @@ public class pChara extends Character{
 		luck=5;
 		speed=10;
 		exp=0;
+		skillSet=new Vector<String>();
+		skillSet.add("Attack");
 	}
 	
 	public pChara(String name2,int lv,int hp,int atk2,int def2,int luck2,int speed2) {
@@ -31,6 +34,8 @@ public class pChara extends Character{
 		speed=speed2;
 		//Temp value, make a better level equation later.
 		exp=lv*100;
+		skillSet=new Vector<String>();
+		skillSet.add("Attack");
 	}
 	
 	/**

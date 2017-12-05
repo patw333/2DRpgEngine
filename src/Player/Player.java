@@ -10,7 +10,7 @@ public class Player {
 	//The player's current party of characters
 	public Vector<pChara> party;
 	//The gameworld the player is in. CurrentMap holds the map the player is currently in
-	private GameWorld World;
+	public GameWorld World;
 	//The coords of the player in the current GameWorld and GameMap;
 	private int xCoord,yCoord;
 	private Battle batoru;
@@ -68,11 +68,10 @@ public class Player {
 	 * 
 	 */
 	public void triggerBattle() throws InterruptedException {
-		//Add some crazy checks for type and stuff later
+		//Add some crazy checks for map tile type and stuff later
 		int gen= (int)(Math.random()*255);
 		if(gen>200) {
 			batoru=new Battle(party,World.generateEnemy());
-			System.out.println("Battle starting!");
 			batoru.battleLoop(new Scanner(System.in));
 		}
 		
@@ -131,13 +130,10 @@ public class Player {
 		else {
 			System.out.println("what the fuck man\n");
 		}
-		
-	
-		
-		
-		
 		}
 	}
+	
+	
 	
 	public void loopMove(String dir) throws InterruptedException {
 		int x=0;
@@ -164,9 +160,7 @@ public class Player {
 			System.out.println("Unable to move to that location\n");
 		}
 	}
+	
 
-	
-	
-	
 	
 }
