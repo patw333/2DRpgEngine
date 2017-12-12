@@ -5,12 +5,13 @@ import java.util.Vector;
 public class Enemy extends Character {
 	//Flag for determining if the enemy is a boss
 	public boolean isBoss;
+	public String sprite;
 	
 	/**
 	 * Generic enemy constructor
 	 */
 	public Enemy(){
-		name="Trash";
+		name="Slime";
 		level=1;
 		hpMax=15;
 		hpRem=15;
@@ -21,6 +22,7 @@ public class Enemy extends Character {
 		exp=10;
 		skillSet=new Vector<String>();
 		skillSet.add("Attack");
+		sprite="/Resources/slime.gif";
 	}
 	
 	/**
@@ -45,6 +47,7 @@ public class Enemy extends Character {
 		isBoss=false;
 		skillSet=new Vector<String>();
 		skillSet.add("Attack");
+		sprite="/Resources/slime.gif";
 	}
 	
 	/**

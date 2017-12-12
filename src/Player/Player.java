@@ -54,9 +54,40 @@ public class Player {
 	public boolean move(int x,int y) {
 		if(((xCoord+x)>=0)&& ((xCoord+x)<World.getCurrentMap().getWidth())) {
 			if(((yCoord+y)>=0)&& ((yCoord+y)<World.getCurrentMap().getLength())) {
+				MapTile curr=World.getCurrentMap().getTiles()[xCoord+x][yCoord+y];
+				if((curr.getType()=="Field")||(curr.getType()=="Water")) {
 				xCoord+=x;
 				yCoord+=y;
 				return true;
+				}
+				else {
+					return false;
+				}
+			}
+		}
+		//Out of bounds cases
+		else {
+			System.out.println("Trying to go out of bounds");
+			if(World.getCurrentMap().getConnection("W")!=null){
+				if(x==-1 && y==0) {
+					World.setMap(World.findMap(World.getCurrentMap().getConnection("W")));
+					xCoord=World.getCurrentMap().getWidth()-1;
+					if(yCoord>World.getCurrentMap().getLength()) {
+						yCoord=World.getCurrentMap().getLength()-1;
+					}
+					
+				}
+			}
+			
+			if(World.getCurrentMap().getConnection("E")!=null){
+				if(x==1 && y==0) {
+					World.setMap(World.findMap(World.getCurrentMap().getConnection("E")));
+					xCoord=0;
+					if(yCoord>World.getCurrentMap().getLength()) {
+						yCoord=World.getCurrentMap().getLength()-1;
+					}
+					
+				}
 			}
 		}
 		return false;

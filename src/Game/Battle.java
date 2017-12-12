@@ -21,6 +21,7 @@ public class Battle {
 	public Vector<Character> retParty;
 	public Vector<Character> enemyParty;
 	public Vector<Character>dead;
+	private int expGained;
 	//Variables to help indicate when a battle ends
 	
 	/**
@@ -30,7 +31,7 @@ public class Battle {
 	 */
 	public Battle(Vector<pChara> party,Vector<Enemy> cohorts) {
 		all=new Vector<Character>();
-		
+		expGained=0;
 		//Vectors to be used through the battle for book keeping
 		dead=new Vector<Character>();
 		retParty=new Vector<Character>();
@@ -96,20 +97,23 @@ public class Battle {
 	 * @param type
 	 * @param target
 	 */
-	public void battleAction(Character user, String type,boolean party,String target) {
+	public String battleAction(Character user, String type,boolean party,String target) {
 		if(type=="Attack"||type=="Burn") {
 			if(party) {
 				for(int i=0;i<retParty.size();i++) {
 					if(retParty.elementAt(i).getName()==target) {
-						int damage=((user.atk*100)-retParty.elementAt(i).def);
+						int damage=((user.atk*10)-retParty.elementAt(i).def);
 						retParty.elementAt(i).hpRem-=damage;
-						System.out.println(retParty.elementAt(i).getName()+" took "+damage+" damage!");
+						//System.out.println();
 						if(retParty.elementAt(i).hpRem<=0) {
 							//dead
-							System.out.println(retParty.elementAt(i).getName()+" was defeated!");
-							removeFromQueue(retParty.elementAt(i).getName(),true);
-							removeFromVector(retParty.elementAt(i).getName(),retParty,true);
-							
+							String res=retParty.elementAt(i).getName()+" was defeated!";
+							removeFromQueue(target,true);
+							removeFromVector(target,retParty,true);
+							return res;
+						}
+						else {
+							return retParty.elementAt(i).getName()+" took "+damage+" damage!";
 						}
 					}
 				}
@@ -117,15 +121,32 @@ public class Battle {
 			else {
 				for(int i=0;i<enemyParty.size();i++) {
 					if(enemyParty.elementAt(i).getName()==target) {
-						int damage=((user.atk*50)-enemyParty.elementAt(i).def);
+						int damage=((user.atk*5)-enemyParty.elementAt(i).def);
 						enemyParty.elementAt(i).hpRem-=damage;
-						System.out.println(enemyParty.elementAt(i).getName()+" took "+damage+" damage!");
+						
 						if(enemyParty.elementAt(i).hpRem<=0) {
 							//dead
-							System.out.println(enemyParty.elementAt(i).getName()+" was defeated!");
-							removeFromQueue(enemyParty.elementAt(i).getName(),false);
-							removeFromVector(enemyParty.elementAt(i).getName(),enemyParty,false);
+							String res=enemyParty.elementAt(i).getName()+" was defeated!";
+							expGained+=enemyParty.elementAt(i).getExp();
+							removeFromQueue(target,false);
+							removeFromVector(target,enemyParty,false);
+							if(enemyParty.size()==0) {
+									for(int j=0;j<retParty.size();j++) {
+										if(retParty.elementAt(j).hpRem>0) {
+											retParty.elementAt(j).exp+=expGained;
+											if(retParty.elementAt(j).exp>=100){
+												((pChara)retParty.elementAt(j)).levelUp();
+												retParty.elementAt(j).exp-=100;
+											}
+										}
+									}
+							}
+							return res;
 							
+							
+						}
+						else {
+							return enemyParty.elementAt(i).getName()+" took "+damage+" damage!";
 						}
 					}
 				}
@@ -133,8 +154,9 @@ public class Battle {
 		}
 		//Temporary placeholder just because
 		if(type=="Heal") {
-			System.out.println("But it failed!");
+			return "But it failed!";
 		}
+		return "But it failed!";
 		
 	}
 	

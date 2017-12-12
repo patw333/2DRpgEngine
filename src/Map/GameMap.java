@@ -24,11 +24,11 @@ public class GameMap {
 	 */
 	public GameMap(){
 		mapName="SampleMap";
-		mapWidth=8;
-		mapLength=8;
+		mapWidth=10;
+		mapLength=10;
 		tiles=new MapTile[mapWidth][mapLength];
-		for (int i=0;i<8;i++) {
-			for (int j=0;j<8;j++) {
+		for (int i=0;i<10;i++) {
+			for (int j=0;j<10;j++) {
 				tiles[i][j]=new MapTile("Field",null);
 			}
 		}
@@ -54,7 +54,7 @@ public class GameMap {
 		tiles=new MapTile[mapWidth][mapLength];
 		for(int i=0;i<w;i++) {
 			for(int j=0;j<l;j++) {
-				tiles[i][j]=new MapTile("Field",null);
+				tiles[i][j]=new MapTile("Water",null);
 			}
 		}
 	}
@@ -135,12 +135,15 @@ public class GameMap {
 	public Vector<Enemy> generateEnemies(){
 		Vector<Enemy> ret=new Vector<Enemy>();
 		if((Math.random()*20)>15) {
-		ret.add(new Enemy("TrashA",2, 1,2,3,4,10));
-		ret.add(new Enemy("TrashB",2, 1,2,3,10,5));
-		ret.add(new Enemy("TrashC",2, 1,2,3,23,13));
+		ret.add(new Enemy("SlimeA",2, 1,2,3,4,20));
+		ret.add(new Enemy("SlimeB",2, 1,2,3,10,20));
+		ret.add(new Enemy("SlimeC",2, 1,2,3,23,20));
 		}
 		else {
-			ret.add(new Enemy("Mook",23,23,23,23,23,23));
+			Enemy temp=new Enemy("Mook",23,230,23,23,23,50);
+			temp.sprite="/Resources/Ghost2.gif";
+			ret.add(temp);
+			
 		}
 		return ret;
 		
